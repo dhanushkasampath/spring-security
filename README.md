@@ -1,0 +1,37 @@
+Currently there are 17 filters
+
+Security filter chain: [
+
+DisableEncodeUrlFilter
+
+WebAsyncManagerIntegrationFilter
+
+SecurityContextPersistenceFilter
+
+HeaderWriterFilter
+
+CsrfFilter
+
+LogoutFilter
+
+UsernamePasswordAuthenticationFilter
+
+DefaultLoginPageGeneratingFilter
+
+DefaultLogoutPageGeneratingFilter
+
+BasicAuthenticationFilter
+
+RequestCacheAwareFilter
+
+SecurityContextHolderAwareRequestFilter
+
+AnonymousAuthenticationFilter
+
+SessionManagementFilter
+
+ExceptionTranslationFilter
+
+FilterSecurityInterceptor
+
+]
