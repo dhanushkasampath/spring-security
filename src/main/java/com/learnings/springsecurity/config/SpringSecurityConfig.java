@@ -1,7 +1,11 @@
 package com.learnings.springsecurity.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * So WebSecurityConfigurerAdapter is deprecated
@@ -19,7 +23,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity(debug = true)//who creates the security filter chain. this annotation will create it
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    //I want to create some details for an user
+    //username/password/role
+    //i want to authenticate users using in memory authentication.
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+           .inMemoryAuthentication()
+           .withUser("dhanushka")
+           .password("$2a$12$YLVv/U5GDlU5ymyRdsXzIePTxx5CWjbtVSCcO8HP4sz0avCB3EGHK")
+           .roles("admin");
+    }
 
+    @Bean
+    PasswordEncoder getPasswordEncoder(){
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+    }
 }
 
 //now register the security filter chain with our application; it will be done by other class, SecurityInitializer
