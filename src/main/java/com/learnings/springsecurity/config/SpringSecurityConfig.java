@@ -2,6 +2,7 @@ package com.learnings.springsecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,19 +27,37 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     //I want to create some details for an user
     //username/password/role
     //i want to authenticate users using in memory authentication.
+    //below method will be called automatically
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
            .inMemoryAuthentication()
            .withUser("dhanushka")
-           .password("$2a$12$YLVv/U5GDlU5ymyRdsXzIePTxx5CWjbtVSCcO8HP4sz0avCB3EGHK")
+//           .password("$2a$12$YLVv/U5GDlU5ymyRdsXzIePTxx5CWjbtVSCcO8HP4sz0avCB3EGHK")
+           .password(getPasswordEncoder().encode("abc@123"))
            .roles("admin");
     }
 
     @Bean
     PasswordEncoder getPasswordEncoder(){
-//        return NoOpPasswordEncoder.getInstance();
+//        return NoOpPasswordEncoder.getInstance();//this store the rawPassword
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * after doing below thing usernamePasswordAuthenticationFilter which is responsible for formbased Authentication
+     * is removed
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic();
     }
 }
 
