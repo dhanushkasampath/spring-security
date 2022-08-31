@@ -46,7 +46,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * after doing below thing usernamePasswordAuthenticationFilter which is responsible for formbased Authentication
-     * is removed
+     * is removed.
+     * By configuring this way, we permit all url's once the user is authenticated
      * @param http
      * @throws Exception
      */
@@ -55,9 +56,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
             .anyRequest()
+//                .denyAll()//this will denie all requests come to the server
             .authenticated()
             .and()
             .httpBasic();
+
+        //No login required for below url's
+        //.antMatchers("/home","/contactUs","/aboutUs").permitAll();
     }
 }
 
