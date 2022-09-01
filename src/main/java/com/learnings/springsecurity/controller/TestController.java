@@ -17,4 +17,18 @@ public class TestController {
         log.info("test method started");
         return "Spring - Security is cool";
     }
+
+    //assume we want to secure this /hello endpoint. we have to by-pass the sign in form
+    @GetMapping(value = "/hello")
+    public String helloMethod() {
+        log.info("hello method started");
+        return "Hello endpoint called";
+    }
+
+    //assume we want to secure this /bye endpoint. we have to by-pass the sign in form
+    @GetMapping(value = "/bye")
+    public String byeMethod() {
+        log.info("bye method started");
+        return "Bye endpoint called";
+    }
 }
