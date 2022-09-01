@@ -32,10 +32,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
            .inMemoryAuthentication()
-           .withUser("dhanushka")
-//           .password("$2a$12$YLVv/U5GDlU5ymyRdsXzIePTxx5CWjbtVSCcO8HP4sz0avCB3EGHK")
-           .password(getPasswordEncoder().encode("abc@123"))
-           .roles("admin");
+           .withUser("dhanushka").password(getPasswordEncoder().encode("abc@123")).roles("admin")
+           .and()
+           .withUser("sampath").password(getPasswordEncoder().encode("xyz@123")).roles("user");
     }
 
     @Bean
@@ -57,17 +56,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/hello").authenticated()
-            .antMatchers("/bye").authenticated()
-            .antMatchers("/test").permitAll()//no one need to authenticate to access this page
-//                .denyAll()//this will denie all requests come to the server
-
+            .antMatchers("/hello","/bye").authenticated()
+            .antMatchers("/test").permitAll()
+            .and()
+            .formLogin()
             .and()
             .httpBasic();
-
-        //No login required for below url's
-        //.antMatchers("/home","/contactUs","/aboutUs").permitAll();
     }
 }
-
-//now register the security filter chain with our application; it will be done by other class, SecurityInitializer
