@@ -59,7 +59,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/hello","/bye").authenticated()
             .antMatchers("/test").permitAll()
             .and()
-            .formLogin()
+            .formLogin().loginPage("/myCustomLogin")
             .and()
             .httpBasic();
     }
